@@ -1,6 +1,3 @@
-"use client";
-
-import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { formatTonnes } from "@/lib/format";
 import type { CategoryResult } from "@/lib/carbon/types";
 
@@ -16,43 +13,65 @@ export const CATEGORY_COLORS: Record<string, string> = {
   goods: "#6366f1",
 };
 
+const RADIUS = 56;
+const STROKE = 24;
+const SIZE = 160;
+const CENTER = SIZE / 2;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
 /**
- * A donut chart of emissions share by category.
+ * A lightweight, dependency-free donut chart drawn with stacked SVG arcs.
  *
- * The chart is decorative: it is marked `aria-hidden` because the parent
- * component renders the same data as an accessible legend and a screen-reader
- * data table. This keeps the visual rich without trapping information in SVG.
+ * Each category is one ring segment, sized by its share via `stroke-dasharray`.
+ * The chart is purely decorative (`aria-hidden`): the parent renders the same
+ * data as a textual legend and a screen-reader table, so no information lives
+ * only in the graphic. Avoiding a charting library keeps the bundle small.
  */
 export function CategoryDonut({ breakdown, totalTonnes }: CategoryDonutProps) {
-  const data = breakdown.map((b) => ({
-    name: b.label,
-    value: b.annualKg,
-    category: b.category,
-  }));
+  const total = breakdown.reduce((sum, b) => sum + b.annualKg, 0) || 1;
+
+  let accumulated = 0;
+  const segments = breakdown.map((item) => {
+    const fraction = item.annualKg / total;
+    const dash = fraction * CIRCUMFERENCE;
+    const offset = -accumulated;
+    accumulated += dash;
+    return {
+      key: item.category,
+      color: CATEGORY_COLORS[item.category] ?? "#059669",
+      dash,
+      offset,
+    };
+  });
 
   return (
     <div className="relative h-44 w-44 shrink-0" aria-hidden="true">
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            innerRadius={56}
-            outerRadius={80}
-            paddingAngle={2}
-            stroke="none"
-            isAnimationActive={false}
-          >
-            {data.map((entry) => (
-              <Cell
-                key={entry.category}
-                fill={CATEGORY_COLORS[entry.category] ?? "#059669"}
-              />
-            ))}
-          </Pie>
-        </PieChart>
-      </ResponsiveContainer>
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-full w-full">
+        <g transform={`rotate(-90 ${CENTER} ${CENTER})`}>
+          {/* Track */}
+          <circle
+            cx={CENTER}
+            cy={CENTER}
+            r={RADIUS}
+            fill="none"
+            strokeWidth={STROKE}
+            className="stroke-slate-100 dark:stroke-slate-800"
+          />
+          {segments.map((seg) => (
+            <circle
+              key={seg.key}
+              cx={CENTER}
+              cy={CENTER}
+              r={RADIUS}
+              fill="none"
+              stroke={seg.color}
+              strokeWidth={STROKE}
+              strokeDasharray={`${seg.dash} ${CIRCUMFERENCE - seg.dash}`}
+              strokeDashoffset={seg.offset}
+            />
+          ))}
+        </g>
+      </svg>
       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-xs text-slate-500 dark:text-slate-400">
           Total

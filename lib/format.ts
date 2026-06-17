@@ -9,7 +9,10 @@ const tonneFormatter = new Intl.NumberFormat("en", {
   maximumFractionDigits: 2,
 });
 
-/** Format a kilogram value, e.g. 4720 -> "4,720 kg". */
+/** Format a kilogram value, e.g. 4720 -> "4,720 kg".
+ *
+ * @example formatKg(4720) // "4,720 kg"
+ */
 export function formatKg(kg: number): string {
   return `${numberFormatter.format(Math.round(kg))} kg`;
 }

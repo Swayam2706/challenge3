@@ -1,24 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { memo } from "react";
 import { formatKg, formatPercent } from "@/lib/format";
-import { CATEGORY_COLORS } from "@/components/charts/CategoryDonut";
+import {
+  CATEGORY_COLORS,
+  CategoryDonut,
+} from "@/components/charts/CategoryDonut";
 import type { CategoryResult } from "@/lib/carbon/types";
-
-// Code-split the chart so recharts stays out of the initial JS bundle.
-const CategoryDonut = dynamic(
-  () =>
-    import("@/components/charts/CategoryDonut").then((m) => m.CategoryDonut),
-  {
-    ssr: false,
-    loading: () => (
-      <div
-        className="skeleton h-44 w-44 shrink-0 rounded-full"
-        aria-hidden="true"
-      />
-    ),
-  },
-);
 
 interface CategoryBreakdownProps {
   breakdown: CategoryResult[];
@@ -28,9 +16,10 @@ interface CategoryBreakdownProps {
 /**
  * Emissions by category: a donut for quick visual scanning, paired with a
  * textual legend. Both the legend and a visually-hidden data table convey the
- * full data, so the section is usable without seeing the chart.
+ * full data, so the section is usable without seeing the chart. Memoized so it
+ * only re-renders when the breakdown changes.
  */
-export function CategoryBreakdown({
+function CategoryBreakdownImpl({
   breakdown,
   totalTonnes,
 }: CategoryBreakdownProps) {
@@ -93,3 +82,5 @@ export function CategoryBreakdown({
     </section>
   );
 }
+
+export const CategoryBreakdown = memo(CategoryBreakdownImpl);

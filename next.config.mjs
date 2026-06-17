@@ -49,7 +49,7 @@ const nextConfig = {
   // Tree-shake large icon/chart packages so only used modules are bundled,
   // reducing First Load JS.
   experimental: {
-    optimizePackageImports: ["lucide-react", "recharts"],
+    optimizePackageImports: ["lucide-react"],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

@@ -28,7 +28,7 @@ Answer a short questionnaire about your everyday life and EcoTrack will:
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Code quality**      | Strict TypeScript, a clear `lib` (domain) / `components` (UI) / `app` (routing) separation, pure and documented calculation functions, and small single-responsibility modules.                                                                                                                                                                             |
 | **Security**          | Secret API key is **server-only** (`server-only` import + API route), strict Content-Security-Policy and security headers, Zod validation at every trust boundary, in-memory rate limiting, and no secrets ever sent to the browser.                                                                                                                        |
-| **Efficiency**        | Pure O(n) calculations, charts (Recharts) are **code-split via dynamic import** so they stay out of the initial bundle, request de-duplication/cancellation, bounded local storage, and server-side AI calls only when needed.                                                                                                                              |
+| **Efficiency**        | Pure O(n) calculations, **zero charting dependency** (hand-rolled SVG donut/trend charts), all result UI **code-split** out of the initial bundle, memoized components, request de-duplication/cancellation, bounded local storage, and server-side AI calls only when needed.                                                                              |
 | **Testing**           | **71 tests** (Vitest + RTL) covering the calculation engine, rules engine, JSON parsing, validation schemas, formatters, storage, rate limiter, the **API route** (all paths), and **automated accessibility checks (axe)**. Coverage is **gated at 90% lines** on core logic. A **GitHub Actions CI** runs typecheck + lint + tests + build on every push. |
 | **Accessibility**     | WCAG 2.1 AA-minded: semantic landmarks, labelled form controls, `aria-live` results, skip link, visible focus rings, `prefers-reduced-motion` support, AA-contrast palette, decorative charts marked `aria-hidden` with text/table alternatives, and a no-flash light/dark theme.                                                                           |
 | **Problem alignment** | Directly maps to "understand, track, and reduce" with simple actions and personalized insights, plus shareable/downloadable reports.                                                                                                                                                                                                                        |
@@ -91,7 +91,7 @@ rule-based insights engine as a fallback.
 
 - **Next.js 14** (App Router) + **React 18** + **TypeScript** (strict)
 - **Tailwind CSS** with a custom design-token theme and class-based dark mode
-- **Recharts** for the donut and trend charts (dynamically imported)
+- **Custom SVG charts** (donut + trend) — no charting library dependency
 - **lucide-react** for accessible, tree-shakeable icons
 - **clsx** + **tailwind-merge** for safe class composition
 - **Zod** for end-to-end input validation
@@ -122,11 +122,11 @@ lib/
 EcoTrack is tuned to keep the initial payload small and interactions cheap:
 
 - **Code-splitting:** all result components (summary, charts, insights, goal,
-  progress) and the Recharts library are lazily imported, so they are **not**
-  in the initial bundle. The landing route ships **~29 kB** of page JS
-  (~117 kB First Load incl. shared chunks).
+  progress) are lazily imported, so they are **not** in the initial bundle.
+  The landing route ships **~29 kB** of page JS (~117 kB First Load incl.
+  shared chunks). Charts are hand-rolled SVG — **no charting library**.
 - **Package-import optimization:** `optimizePackageImports` tree-shakes
-  `lucide-react` and `recharts` to their used modules.
+  `lucide-react` to its used modules.
 - **Render efficiency:** heavy result components are `React.memo`-ised, so
   typing in the calculator doesn't re-render them.
 - **Bounded memory:** the rate limiter prunes expired windows; local storage is

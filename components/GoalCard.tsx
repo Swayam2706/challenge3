@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import { CheckCircle2, Target } from "lucide-react";
 import { NumberField } from "@/components/ui/NumberField";
 import { Button } from "@/components/ui/Button";
@@ -16,9 +16,10 @@ interface GoalCardProps {
 
 /**
  * Lets the user set a reduction target and shows progress toward it. Progress
- * is conveyed with a labelled progress bar and in text.
+ * is conveyed with a labelled progress bar and in text. Memoized so it only
+ * re-renders when its props change.
  */
-export function GoalCard({ currentAnnualKg, goal, onSave }: GoalCardProps) {
+function GoalCardImpl({ currentAnnualKg, goal, onSave }: GoalCardProps) {
   const defaultTargetTonnes = goal
     ? goal.targetAnnualKg / 1000
     : Number((BENCHMARKS.sustainableTargetKg / 1000).toFixed(1));
@@ -115,3 +116,5 @@ export function GoalCard({ currentAnnualKg, goal, onSave }: GoalCardProps) {
     </section>
   );
 }
+
+export const GoalCard = memo(GoalCardImpl);

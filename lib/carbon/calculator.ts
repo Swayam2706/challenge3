@@ -86,6 +86,14 @@ function clampPercent(value: number): number {
  *
  * The breakdown is sorted largest-first so the UI can surface the highest-
  * impact category without additional work, and shares always sum to ~100%.
+ *
+ * @example
+ * ```ts
+ * const result = calculateFootprint(DEFAULT_INPUT);
+ * result.totalAnnualTonnes; // e.g. 7.4
+ * result.breakdown[0];       // the largest-impact category
+ * result.comparison.vsSustainableTarget; // ratio vs the ~2.3 t target
+ * ```
  */
 export function calculateFootprint(input: CalculatorInput): FootprintResult {
   const rawTotals: Record<EmissionCategory, number> = {

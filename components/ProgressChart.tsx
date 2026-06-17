@@ -1,17 +1,10 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { memo } from "react";
 import { TrendingDown, TrendingUp, Minus } from "lucide-react";
 import { formatTonnes } from "@/lib/format";
+import { TrendChart } from "@/components/charts/TrendChart";
 import type { HistoryEntry } from "@/lib/storage";
-
-const TrendChart = dynamic(
-  () => import("@/components/charts/TrendChart").then((m) => m.TrendChart),
-  {
-    ssr: false,
-    loading: () => <div className="skeleton h-48 w-full" aria-hidden="true" />,
-  },
-);
 
 interface ProgressChartProps {
   history: HistoryEntry[];
@@ -19,9 +12,10 @@ interface ProgressChartProps {
 
 /**
  * Footprint trend over time. Shows an area chart plus a text trend summary and
- * a visually-hidden data table for assistive technology.
+ * a visually-hidden data table for assistive technology. Memoized so it only
+ * re-renders when the history changes.
  */
-export function ProgressChart({ history }: ProgressChartProps) {
+function ProgressChartImpl({ history }: ProgressChartProps) {
   if (history.length < 2) {
     return (
       <section
@@ -97,3 +91,5 @@ export function ProgressChart({ history }: ProgressChartProps) {
     </section>
   );
 }
+
+export const ProgressChart = memo(ProgressChartImpl);
