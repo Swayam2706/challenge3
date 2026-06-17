@@ -12,13 +12,14 @@ import {
   ENERGY_FACTORS,
   TRANSPORT_FACTORS,
 } from "@/lib/carbon/factors";
+import {
+  DAYS_PER_YEAR,
+  MONTHS_PER_YEAR,
+  WEEKS_PER_YEAR,
+} from "@/lib/carbon/constants";
 import { calculateFootprint } from "@/lib/carbon/calculator";
 import type { CalculatorInput } from "@/lib/carbon/types";
 import type { Insight, InsightsResponse } from "./types";
-
-const WEEKS_PER_YEAR = 52;
-const MONTHS_PER_YEAR = 12;
-const DAYS_PER_YEAR = 365;
 
 /** Build a short, encouraging summary based on the benchmark comparison. */
 function buildSummary(totalTonnes: number, vsTarget: number): string {
@@ -78,7 +79,10 @@ export function generateRuleBasedInsights(
   }
 
   // --- Energy -------------------------------------------------------------
-  if (input.energy.renewablePercent < 80 && input.energy.electricityKwhPerMonth > 0) {
+  if (
+    input.energy.renewablePercent < 80 &&
+    input.energy.electricityKwhPerMonth > 0
+  ) {
     const remainingShare = (80 - input.energy.renewablePercent) / 100;
     const saving =
       input.energy.electricityKwhPerMonth *
@@ -132,8 +136,7 @@ export function generateRuleBasedInsights(
   // --- Goods --------------------------------------------------------------
   if (input.goods.monthlySpendUsd > 200) {
     // Cutting discretionary goods spend by 20%, favouring second-hand/repair.
-    const saving =
-      input.goods.monthlySpendUsd * 0.2 * 0.5 * MONTHS_PER_YEAR;
+    const saving = input.goods.monthlySpendUsd * 0.2 * 0.5 * MONTHS_PER_YEAR;
     insights.push({
       id: "goods-buy-better",
       category: "goods",
@@ -146,7 +149,9 @@ export function generateRuleBasedInsights(
   }
 
   // Highest-impact actions first, capped to keep the UI focused.
-  insights.sort((a, b) => b.estimatedAnnualSavingKg - a.estimatedAnnualSavingKg);
+  insights.sort(
+    (a, b) => b.estimatedAnnualSavingKg - a.estimatedAnnualSavingKg,
+  );
 
   return {
     source: "rules",

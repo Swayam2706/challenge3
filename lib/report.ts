@@ -18,7 +18,8 @@ export function buildTextReport(result: FootprintResult): string {
     "",
     "Breakdown:",
     ...result.breakdown.map(
-      (b) => `  - ${b.label}: ${formatKg(b.annualKg)} (${Math.round(b.share)}%)`,
+      (b) =>
+        `  - ${b.label}: ${formatKg(b.annualKg)} (${Math.round(b.share)}%)`,
     ),
     "",
     "Generated with EcoTrack",

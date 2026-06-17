@@ -1,17 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { AlertCircle, Leaf, Sparkles } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CalculatorForm } from "@/components/CalculatorForm";
-import { FootprintSummary } from "@/components/FootprintSummary";
-import { CategoryBreakdown } from "@/components/CategoryBreakdown";
-import { InsightsList } from "@/components/InsightsList";
 import { InsightsSkeleton } from "@/components/InsightsSkeleton";
-import { GoalCard } from "@/components/GoalCard";
-import { ProgressChart } from "@/components/ProgressChart";
-import { ShareResults } from "@/components/ShareResults";
 import { Card } from "@/components/ui/Card";
 import { calculateFootprint, DEFAULT_INPUT } from "@/lib/carbon/calculator";
 import type { CalculatorInput, FootprintResult } from "@/lib/carbon/types";
@@ -25,6 +20,39 @@ import {
   type Goal,
   type HistoryEntry,
 } from "@/lib/storage";
+
+// Result-area components are below the fold and only render after the user
+// calculates, so they are code-split out of the initial bundle. This keeps the
+// landing payload minimal (better LCP/TTI) without changing behaviour.
+const blockSkeleton = () => (
+  <div className="skeleton h-40 w-full rounded-2xl" aria-hidden="true" />
+);
+
+const FootprintSummary = dynamic(
+  () => import("@/components/FootprintSummary").then((m) => m.FootprintSummary),
+  { loading: blockSkeleton },
+);
+const ShareResults = dynamic(
+  () => import("@/components/ShareResults").then((m) => m.ShareResults),
+  { ssr: false },
+);
+const CategoryBreakdown = dynamic(
+  () =>
+    import("@/components/CategoryBreakdown").then((m) => m.CategoryBreakdown),
+  { loading: blockSkeleton },
+);
+const InsightsList = dynamic(
+  () => import("@/components/InsightsList").then((m) => m.InsightsList),
+  { loading: () => <InsightsSkeleton /> },
+);
+const GoalCard = dynamic(
+  () => import("@/components/GoalCard").then((m) => m.GoalCard),
+  { loading: blockSkeleton },
+);
+const ProgressChart = dynamic(
+  () => import("@/components/ProgressChart").then((m) => m.ProgressChart),
+  { ssr: false },
+);
 
 export default function HomePage() {
   const [input, setInput] = useState<CalculatorInput>(DEFAULT_INPUT);
@@ -40,7 +68,7 @@ export default function HomePage() {
     setGoal(loadGoal());
   }, []);
 
-  function handleCalculate() {
+  const handleCalculate = useCallback(() => {
     const footprint = calculateFootprint(input);
     setResult(footprint);
 
@@ -54,16 +82,16 @@ export default function HomePage() {
     void fetchInsights(input);
 
     requestAnimationFrame(() => resultsRef.current?.focus());
-  }
+  }, [input, fetchInsights]);
 
-  function handleSaveGoal(targetAnnualKg: number) {
+  const handleSaveGoal = useCallback((targetAnnualKg: number) => {
     const nextGoal: Goal = {
       targetAnnualKg,
       createdAt: new Date().toISOString(),
     };
     saveGoal(nextGoal);
     setGoal(nextGoal);
-  }
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col">

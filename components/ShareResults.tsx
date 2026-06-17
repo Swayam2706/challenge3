@@ -59,7 +59,11 @@ export function ShareResults({ result }: ShareResultsProps) {
         <Download className="h-4 w-4" aria-hidden="true" />
         Download report
       </Button>
-      <span role="status" aria-live="polite" className="text-sm text-brand-700 dark:text-brand-300">
+      <span
+        role="status"
+        aria-live="polite"
+        className="text-sm text-brand-700 dark:text-brand-300"
+      >
         {status ? (
           <span className="inline-flex items-center gap-1">
             <Check className="h-4 w-4" aria-hidden="true" />

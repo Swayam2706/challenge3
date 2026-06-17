@@ -7,7 +7,11 @@ import { DEFAULT_INPUT } from "@/lib/carbon/calculator";
 describe("CalculatorForm", () => {
   it("renders accessible, grouped sections", () => {
     render(
-      <CalculatorForm value={DEFAULT_INPUT} onChange={() => {}} onSubmit={() => {}} />,
+      <CalculatorForm
+        value={DEFAULT_INPUT}
+        onChange={() => {}}
+        onSubmit={() => {}}
+      />,
     );
     // Native labels are associated with their controls.
     expect(screen.getByLabelText(/main car type/i)).toBeInTheDocument();
@@ -18,7 +22,11 @@ describe("CalculatorForm", () => {
     const onSubmit = vi.fn();
     const user = userEvent.setup();
     render(
-      <CalculatorForm value={DEFAULT_INPUT} onChange={() => {}} onSubmit={onSubmit} />,
+      <CalculatorForm
+        value={DEFAULT_INPUT}
+        onChange={() => {}}
+        onSubmit={onSubmit}
+      />,
     );
     await user.click(
       screen.getByRole("button", { name: /calculate my footprint/i }),
@@ -30,7 +38,11 @@ describe("CalculatorForm", () => {
     const onChange = vi.fn();
     const user = userEvent.setup();
     render(
-      <CalculatorForm value={DEFAULT_INPUT} onChange={onChange} onSubmit={() => {}} />,
+      <CalculatorForm
+        value={DEFAULT_INPUT}
+        onChange={onChange}
+        onSubmit={() => {}}
+      />,
     );
     const diet = screen.getByLabelText(/typical diet/i);
     await user.selectOptions(diet, "vegan");

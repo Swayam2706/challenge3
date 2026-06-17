@@ -36,7 +36,11 @@ const insights: InsightsResponse = {
 describe("accessibility (axe)", () => {
   it("CalculatorForm has no detectable violations", async () => {
     const { container } = render(
-      <CalculatorForm value={DEFAULT_INPUT} onChange={() => {}} onSubmit={() => {}} />,
+      <CalculatorForm
+        value={DEFAULT_INPUT}
+        onChange={() => {}}
+        onSubmit={() => {}}
+      />,
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });

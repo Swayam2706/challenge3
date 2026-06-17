@@ -54,7 +54,9 @@ export function CategoryDonut({ breakdown, totalTonnes }: CategoryDonutProps) {
         </PieChart>
       </ResponsiveContainer>
       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xs text-slate-500 dark:text-slate-400">Total</span>
+        <span className="text-xs text-slate-500 dark:text-slate-400">
+          Total
+        </span>
         <span className="text-lg font-bold text-slate-900 dark:text-slate-100">
           {formatTonnes(totalTonnes)}
         </span>

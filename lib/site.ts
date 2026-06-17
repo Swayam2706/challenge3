@@ -1,9 +1,20 @@
 /**
  * Canonical site URL, used for metadata, robots, and the sitemap.
  *
- * Set `NEXT_PUBLIC_SITE_URL` in the deployment environment (e.g. your Vercel
- * domain). Falls back to localhost for local development.
+ * Resolution order:
+ *   1. `NEXT_PUBLIC_SITE_URL` — set this to your custom domain in production.
+ *   2. `VERCEL_URL` — injected automatically by Vercel, so deployments get a
+ *      correct canonical URL with zero configuration.
+ *   3. localhost — for local development.
  */
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "http://localhost:3000";
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const vercel = process.env.VERCEL_URL;
+  if (vercel) return `https://${vercel}`;
+
+  return "http://localhost:3000";
+}
+
+export const siteUrl = resolveSiteUrl();

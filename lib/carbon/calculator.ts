@@ -15,16 +15,13 @@ import {
   PUBLIC_TRANSPORT_FACTORS,
   TRANSPORT_FACTORS,
 } from "./factors";
+import { DAYS_PER_YEAR, MONTHS_PER_YEAR, WEEKS_PER_YEAR } from "./constants";
 import type {
   CalculatorInput,
   CategoryResult,
   EmissionCategory,
   FootprintResult,
 } from "./types";
-
-const WEEKS_PER_YEAR = 52;
-const MONTHS_PER_YEAR = 12;
-const DAYS_PER_YEAR = 365;
 
 const CATEGORY_LABELS: Record<EmissionCategory, string> = {
   transport: "Transport",
@@ -39,7 +36,9 @@ function roundKg(value: number): number {
 }
 
 /** Annual transport emissions (kg CO2e). */
-export function calculateTransport(input: CalculatorInput["transport"]): number {
+export function calculateTransport(
+  input: CalculatorInput["transport"],
+): number {
   const carFactor =
     input.carType === "none" ? 0 : TRANSPORT_FACTORS[input.carType];
 

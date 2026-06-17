@@ -59,7 +59,8 @@ export function FootprintSummary({ result }: FootprintSummaryProps) {
               {formatMultiplier(comparison.vsSustainableTarget)}
             </span>
             <span className="block text-xs text-brand-100">
-              2030 target ≈ {formatTonnes(BENCHMARKS.sustainableTargetKg / 1000)}
+              2030 target ≈{" "}
+              {formatTonnes(BENCHMARKS.sustainableTargetKg / 1000)}
             </span>
           </dd>
         </div>

@@ -7,7 +7,10 @@ export function Footer() {
       <div className="container py-8">
         <div className="grid gap-4 text-sm text-slate-500 dark:text-slate-400 sm:grid-cols-2">
           <p className="flex items-start gap-2">
-            <Lock className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+            <Lock
+              className="mt-0.5 h-4 w-4 shrink-0 text-brand-600"
+              aria-hidden="true"
+            />
             <span>
               Your data stays on your device. Estimates use published average
               emission factors (DEFRA, EPA, and peer-reviewed dietary studies)
@@ -15,7 +18,10 @@ export function Footer() {
             </span>
           </p>
           <p className="flex items-start gap-2">
-            <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+            <Sparkles
+              className="mt-0.5 h-4 w-4 shrink-0 text-brand-600"
+              aria-hidden="true"
+            />
             <span>
               AI-personalized insights are powered by Google Gemini when
               configured, with a built-in fallback so EcoTrack always works.

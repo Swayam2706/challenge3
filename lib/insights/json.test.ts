@@ -12,7 +12,7 @@ describe("extractJson", () => {
   });
 
   it("extracts JSON from a fence without a language tag", () => {
-    expect(extractJson("```\n{\"b\":3}\n```")).toEqual({ b: 3 });
+    expect(extractJson('```\n{"b":3}\n```')).toEqual({ b: 3 });
   });
 
   it("ignores prose surrounding a raw object", () => {

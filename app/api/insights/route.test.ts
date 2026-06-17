@@ -59,7 +59,9 @@ describe("POST /api/insights", () => {
 
   it("rejects an oversized body with 413", async () => {
     const huge = "x".repeat(9000);
-    const res = await POST(makeRequest(null, { ip: "10.0.0.5", rawBody: huge }));
+    const res = await POST(
+      makeRequest(null, { ip: "10.0.0.5", rawBody: huge }),
+    );
     expect(res.status).toBe(413);
   });
 

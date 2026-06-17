@@ -12,8 +12,7 @@ const tones: Record<Tone, string> = {
   rose: "bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-100",
   indigo:
     "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-100",
-  neutral:
-    "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+  neutral: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
 };
 
 /** A small status/label pill. */

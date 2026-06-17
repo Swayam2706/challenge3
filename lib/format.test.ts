@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { formatKg, formatMultiplier, formatPercent, formatTonnes } from "./format";
+import {
+  formatKg,
+  formatMultiplier,
+  formatPercent,
+  formatTonnes,
+} from "./format";
 
 describe("format helpers", () => {
   it("formats kilograms with thousands separators and a unit", () => {

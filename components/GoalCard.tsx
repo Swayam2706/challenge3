@@ -75,7 +75,10 @@ export function GoalCard({ currentAnnualKg, goal, onSave }: GoalCardProps) {
             <span className="flex items-center gap-1 font-medium text-slate-800 dark:text-slate-200">
               {achieved ? (
                 <>
-                  <CheckCircle2 className="h-4 w-4 text-brand-600" aria-hidden="true" />
+                  <CheckCircle2
+                    className="h-4 w-4 text-brand-600"
+                    aria-hidden="true"
+                  />
                   Goal met
                 </>
               ) : (
@@ -99,8 +102,8 @@ export function GoalCard({ currentAnnualKg, goal, onSave }: GoalCardProps) {
           {!achieved ? (
             <p className="text-sm text-slate-600 dark:text-slate-300">
               Cut about{" "}
-              {formatTonnes((currentAnnualKg - goal.targetAnnualKg) / 1000)} more
-              per year to reach your goal.
+              {formatTonnes((currentAnnualKg - goal.targetAnnualKg) / 1000)}{" "}
+              more per year to reach your goal.
             </p>
           ) : null}
         </div>

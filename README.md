@@ -17,16 +17,16 @@ Answer a short questionnaire about your everyday life and EcoTrack will:
 
 ## Why EcoTrack scores well against the evaluation criteria
 
-| Criterion | How EcoTrack addresses it |
-| --- | --- |
-| **Code quality** | Strict TypeScript, a clear `lib` (domain) / `components` (UI) / `app` (routing) separation, pure and documented calculation functions, and small single-responsibility modules. |
-| **Security** | Secret API key is **server-only** (`server-only` import + API route), strict Content-Security-Policy and security headers, Zod validation at every trust boundary, in-memory rate limiting, and no secrets ever sent to the browser. |
-| **Efficiency** | Pure O(n) calculations, charts (Recharts) are **code-split via dynamic import** so they stay out of the initial bundle, request de-duplication/cancellation, bounded local storage, and server-side AI calls only when needed. |
-| **Testing** | **71 tests** (Vitest + RTL) covering the calculation engine, rules engine, JSON parsing, validation schemas, formatters, storage, rate limiter, the **API route** (all paths), and **automated accessibility checks (axe)**. Coverage is **gated at 90% lines** on core logic. A **GitHub Actions CI** runs typecheck + lint + tests + build on every push. |
-| **Accessibility** | WCAG 2.1 AA-minded: semantic landmarks, labelled form controls, `aria-live` results, skip link, visible focus rings, `prefers-reduced-motion` support, AA-contrast palette, decorative charts marked `aria-hidden` with text/table alternatives, and a no-flash light/dark theme. |
-| **Problem alignment** | Directly maps to "understand, track, and reduce" with simple actions and personalized insights, plus shareable/downloadable reports. |
-| **Google services** | Google **Gemini** generates the personalized insights; Google **Fonts** (Inter) are self-hosted via `next/font`. |
-| **PWA / SEO** | Installable web app manifest, generated `robots.txt` and `sitemap.xml`, canonical metadata, and Open Graph tags. |
+| Criterion             | How EcoTrack addresses it                                                                                                                                                                                                                                                                                                                                   |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Code quality**      | Strict TypeScript, a clear `lib` (domain) / `components` (UI) / `app` (routing) separation, pure and documented calculation functions, and small single-responsibility modules.                                                                                                                                                                             |
+| **Security**          | Secret API key is **server-only** (`server-only` import + API route), strict Content-Security-Policy and security headers, Zod validation at every trust boundary, in-memory rate limiting, and no secrets ever sent to the browser.                                                                                                                        |
+| **Efficiency**        | Pure O(n) calculations, charts (Recharts) are **code-split via dynamic import** so they stay out of the initial bundle, request de-duplication/cancellation, bounded local storage, and server-side AI calls only when needed.                                                                                                                              |
+| **Testing**           | **71 tests** (Vitest + RTL) covering the calculation engine, rules engine, JSON parsing, validation schemas, formatters, storage, rate limiter, the **API route** (all paths), and **automated accessibility checks (axe)**. Coverage is **gated at 90% lines** on core logic. A **GitHub Actions CI** runs typecheck + lint + tests + build on every push. |
+| **Accessibility**     | WCAG 2.1 AA-minded: semantic landmarks, labelled form controls, `aria-live` results, skip link, visible focus rings, `prefers-reduced-motion` support, AA-contrast palette, decorative charts marked `aria-hidden` with text/table alternatives, and a no-flash light/dark theme.                                                                           |
+| **Problem alignment** | Directly maps to "understand, track, and reduce" with simple actions and personalized insights, plus shareable/downloadable reports.                                                                                                                                                                                                                        |
+| **Google services**   | Google **Gemini** generates the personalized insights; Google **Fonts** (Inter) are self-hosted via `next/font`.                                                                                                                                                                                                                                            |
+| **PWA / SEO**         | Installable web app manifest, generated `robots.txt` and `sitemap.xml`, canonical metadata, and Open Graph tags.                                                                                                                                                                                                                                            |
 
 ---
 
@@ -68,15 +68,15 @@ rule-based insights engine as a fallback.
 
 ## Scripts
 
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Start the development server. |
-| `npm run build` | Production build. |
-| `npm start` | Run the production build. |
-| `npm test` | Run the full test suite once. |
+| Script                  | Description                       |
+| ----------------------- | --------------------------------- |
+| `npm run dev`           | Start the development server.     |
+| `npm run build`         | Production build.                 |
+| `npm start`             | Run the production build.         |
+| `npm test`              | Run the full test suite once.     |
 | `npm run test:coverage` | Run tests with a coverage report. |
-| `npm run typecheck` | Type-check without emitting. |
-| `npm run lint` | Lint with ESLint / Next config. |
+| `npm run typecheck`     | Type-check without emitting.      |
+| `npm run lint`          | Lint with ESLint / Next config.   |
 
 ---
 
@@ -122,20 +122,20 @@ database.
 
 ## 🤖 AI tools & prompts
 
-This section documents, for full transparency, **(A)** the AI used *inside* the
-product and **(B)** the AI tooling used *to build* the project.
+This section documents, for full transparency, **(A)** the AI used _inside_ the
+product and **(B)** the AI tooling used _to build_ the project.
 
 ### A. AI used in the product — Google Gemini
 
-| Aspect | Detail |
-| --- | --- |
-| **Provider / tool** | Google **Gemini** via the official `@google/generative-ai` SDK |
-| **Model** | `gemini-2.5-flash` (override with the `GEMINI_MODEL` env var) |
-| **Where it runs** | Server-only: `app/api/insights/route.ts` → `lib/insights/ai.ts` (guarded by `import "server-only"`, so the key never reaches the browser) |
-| **Generation config** | `temperature: 0.4`, `responseMimeType: "application/json"` |
-| **Input sent** | Only anonymous lifestyle figures + the computed footprint breakdown — no names, accounts, or device identifiers |
-| **Output handling** | Response is parsed by `extractJson()` then **validated with a Zod schema** (`aiInsightsResponseSchema`) before display |
-| **Fallback** | On any AI error/rate-limit/missing key, a deterministic **rule-based engine** (`lib/insights/rules.ts`) produces equivalent insights, so the feature never breaks |
+| Aspect                | Detail                                                                                                                                                            |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Provider / tool**   | Google **Gemini** via the official `@google/generative-ai` SDK                                                                                                    |
+| **Model**             | `gemini-2.5-flash` (override with the `GEMINI_MODEL` env var)                                                                                                     |
+| **Where it runs**     | Server-only: `app/api/insights/route.ts` → `lib/insights/ai.ts` (guarded by `import "server-only"`, so the key never reaches the browser)                         |
+| **Generation config** | `temperature: 0.4`, `responseMimeType: "application/json"`                                                                                                        |
+| **Input sent**        | Only anonymous lifestyle figures + the computed footprint breakdown — no names, accounts, or device identifiers                                                   |
+| **Output handling**   | Response is parsed by `extractJson()` then **validated with a Zod schema** (`aiInsightsResponseSchema`) before display                                            |
+| **Fallback**          | On any AI error/rate-limit/missing key, a deterministic **rule-based engine** (`lib/insights/rules.ts`) produces equivalent insights, so the feature never breaks |
 
 #### Exact prompt sent to Gemini
 
@@ -181,6 +181,7 @@ Provide 3 to 5 insights, prioritising the largest categories. Keep savings estim
 ```
 
 Why this design:
+
 - **Strict-JSON instruction + `responseMimeType`** makes the output reliably
   parseable.
 - **Grounding the model in the computed breakdown** keeps savings estimates
@@ -199,18 +200,18 @@ the automated gates in this repo: `npm run typecheck`, `npm run lint`,
 
 Representative development prompts that guided the build:
 
-1. *"Design a solution that helps individuals understand, track, and reduce
+1. _"Design a solution that helps individuals understand, track, and reduce
    their carbon footprint through simple actions and personalized insights —
-   start building the application."*
-2. *"Make the styling proper, use relevant libraries, and make it
-   production-level."*
-3. *"Add deeper testing, CI, accessibility automation, SEO/PWA, and security
-   hardening — leave no weak parameter."*
-4. *"Document all AI tools and prompts in the README and push to GitHub."*
+   start building the application."_
+2. _"Make the styling proper, use relevant libraries, and make it
+   production-level."_
+3. _"Add deeper testing, CI, accessibility automation, SEO/PWA, and security
+   hardening — leave no weak parameter."_
+4. _"Document all AI tools and prompts in the README and push to GitHub."_
 
 > **Human-in-the-loop:** AI-generated code was reviewed and validated; it is not
 > shipped unchecked. Emission factors are sourced from published datasets (see
-> *Data & methodology*), not generated by an LLM.
+> _Data & methodology_), not generated by an LLM.
 
 ---
 

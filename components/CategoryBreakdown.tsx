@@ -7,11 +7,15 @@ import type { CategoryResult } from "@/lib/carbon/types";
 
 // Code-split the chart so recharts stays out of the initial JS bundle.
 const CategoryDonut = dynamic(
-  () => import("@/components/charts/CategoryDonut").then((m) => m.CategoryDonut),
+  () =>
+    import("@/components/charts/CategoryDonut").then((m) => m.CategoryDonut),
   {
     ssr: false,
     loading: () => (
-      <div className="skeleton h-44 w-44 shrink-0 rounded-full" aria-hidden="true" />
+      <div
+        className="skeleton h-44 w-44 shrink-0 rounded-full"
+        aria-hidden="true"
+      />
     ),
   },
 );
@@ -31,7 +35,10 @@ export function CategoryBreakdown({
   totalTonnes,
 }: CategoryBreakdownProps) {
   return (
-    <section aria-labelledby="breakdown-heading" className="flex flex-col gap-5">
+    <section
+      aria-labelledby="breakdown-heading"
+      className="flex flex-col gap-5"
+    >
       <h2
         id="breakdown-heading"
         className="text-lg font-semibold text-slate-900 dark:text-slate-100"

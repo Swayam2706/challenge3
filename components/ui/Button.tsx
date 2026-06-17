@@ -28,7 +28,10 @@ const sizes: Record<Size, string> = {
 
 /** A variant-driven, fully accessible button built on the native element. */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", type = "button", ...props }, ref) => (
+  (
+    { className, variant = "primary", size = "md", type = "button", ...props },
+    ref,
+  ) => (
     <button
       ref={ref}
       type={type}

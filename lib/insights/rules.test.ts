@@ -64,8 +64,8 @@ describe("generateRuleBasedInsights", () => {
   });
 
   it("produces a non-empty summary string", () => {
-    expect(generateRuleBasedInsights(highImpactInput).summary.length).toBeGreaterThan(
-      0,
-    );
+    expect(
+      generateRuleBasedInsights(highImpactInput).summary.length,
+    ).toBeGreaterThan(0);
   });
 });

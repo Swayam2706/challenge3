@@ -23,8 +23,10 @@ describe("aiInsightSchema", () => {
 
   it("rejects a negative saving", () => {
     expect(
-      aiInsightSchema.safeParse({ ...validInsight, estimatedAnnualSavingKg: -5 })
-        .success,
+      aiInsightSchema.safeParse({
+        ...validInsight,
+        estimatedAnnualSavingKg: -5,
+      }).success,
     ).toBe(false);
   });
 
@@ -47,7 +49,8 @@ describe("aiInsightsResponseSchema", () => {
 
   it("rejects a response with no insights", () => {
     expect(
-      aiInsightsResponseSchema.safeParse({ summary: "x", insights: [] }).success,
+      aiInsightsResponseSchema.safeParse({ summary: "x", insights: [] })
+        .success,
     ).toBe(false);
   });
 

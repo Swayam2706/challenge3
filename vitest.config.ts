@@ -25,6 +25,7 @@ export default defineConfig({
       // excluded as they are better covered by integration/e2e, not unit tests.
       include: [
         "lib/carbon/calculator.ts",
+        "lib/carbon/constants.ts",
         "lib/carbon/factors.ts",
         "lib/carbon/schema.ts",
         "lib/insights/rules.ts",

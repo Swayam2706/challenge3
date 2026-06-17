@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it } from "vitest";
-import { __resetRateLimiter, rateLimit } from "./rate-limit";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { __resetRateLimiter, activeWindowCount, rateLimit } from "./rate-limit";
 
 describe("rateLimit", () => {
   beforeEach(() => {
@@ -24,5 +24,24 @@ describe("rateLimit", () => {
     rateLimit("ip-c", 1, 1000);
     expect(rateLimit("ip-c", 1, 1000).allowed).toBe(false);
     expect(rateLimit("ip-d", 1, 1000).allowed).toBe(true);
+  });
+
+  it("prunes expired windows so the map stays bounded", () => {
+    vi.useFakeTimers();
+    try {
+      vi.setSystemTime(0);
+      __resetRateLimiter();
+      rateLimit("a", 5, 1000);
+      rateLimit("b", 5, 1000);
+      expect(activeWindowCount()).toBe(2);
+
+      // Jump past both the window and the sweep interval, then make a call
+      // that should trigger pruning of the two now-expired entries.
+      vi.setSystemTime(70_000);
+      rateLimit("c", 5, 1000);
+      expect(activeWindowCount()).toBe(1);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

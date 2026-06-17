@@ -39,7 +39,9 @@ export function SelectField<T extends string>({
         htmlFor={id}
         className="flex items-center gap-1.5 text-sm font-medium text-slate-700 dark:text-slate-200"
       >
-        {Icon ? <Icon className="h-4 w-4 text-slate-400" aria-hidden="true" /> : null}
+        {Icon ? (
+          <Icon className="h-4 w-4 text-slate-400" aria-hidden="true" />
+        ) : null}
         {label}
       </label>
       <div className="relative">
