@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Global base styles and design primitives.
+ * - Class-based dark mode (toggled on <html>).
+ * - Clear, high-contrast focus indicator for keyboard users.
+ * - Respects the user's "reduce motion" preference.
+ */
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 15 23 42;
+  }
+
+  .dark {
+    --background: 2 6 23;
+    --foreground: 226 232 240;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+  }
+
+  /* Visible focus ring for keyboard navigation. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-600 ring-offset-2 ring-offset-slate-50 dark:ring-brand-400 dark:ring-offset-slate-950;
+  }
+
+  /* Subtle, theme-aware scrollbar. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184 / 0.5) transparent;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
+}
+
+@layer components {
+  /* A reusable surface card used across the app. */
+  .card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-soft dark:border-slate-800 dark:bg-slate-900;
+  }
+
+  /* Loading skeleton block with a shimmer sweep. */
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-slate-200 dark:bg-slate-800;
+  }
+  .skeleton::after {
+    @apply absolute inset-0 -translate-x-full;
+    content: "";
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 0.15),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+@layer utilities {
+  /* Visually hidden until focused (used by the skip link). */
+  .sr-only-focusable:focus {
+    @apply static h-auto w-auto overflow-visible whitespace-normal p-2;
+    clip: auto;
+  }
+}
+
+/* Honour reduced-motion preferences across the whole app. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "ecotrack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EcoTrack — a Carbon Footprint Awareness Platform that helps people understand, track, and reduce their carbon footprint with personalized, AI-assisted insights.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.456.0",
+    "next": "14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.13.3",
+    "tailwind-merge": "^2.5.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^20.16.13",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "@vitest/coverage-v8": "^2.1.4",
+    "autoprefixer": "^10.4.20",
+    "axe-core": "^4.10.2",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.15",
+    "jsdom": "^25.0.1",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4",
+    "vitest-axe": "^0.1.0"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}
