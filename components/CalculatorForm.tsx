@@ -68,9 +68,15 @@ export function CalculatorForm({
 }: CalculatorFormProps) {
   const [formError, setFormError] = useState<string | null>(null);
 
-  function update(patch: Partial<CalculatorInput>) {
-    onChange({ ...value, ...patch });
-  }
+  // Typed section updaters keep the JSX free of repetitive nested spreads.
+  const setTransport = (patch: Partial<CalculatorInput["transport"]>) =>
+    onChange({ ...value, transport: { ...value.transport, ...patch } });
+  const setEnergy = (patch: Partial<CalculatorInput["energy"]>) =>
+    onChange({ ...value, energy: { ...value.energy, ...patch } });
+  const setDiet = (patch: Partial<CalculatorInput["diet"]>) =>
+    onChange({ ...value, diet: { ...value.diet, ...patch } });
+  const setGoods = (patch: Partial<CalculatorInput["goods"]>) =>
+    onChange({ ...value, goods: { ...value.goods, ...patch } });
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -94,18 +100,14 @@ export function CalculatorForm({
           icon={Car}
           value={value.transport.carType}
           options={CAR_OPTIONS}
-          onChange={(carType) =>
-            update({ transport: { ...value.transport, carType } })
-          }
+          onChange={(carType) => setTransport({ carType })}
         />
         <NumberField
           label="Car distance"
           icon={Car}
           unit="km/wk"
           value={value.transport.carKmPerWeek}
-          onChange={(carKmPerWeek) =>
-            update({ transport: { ...value.transport, carKmPerWeek } })
-          }
+          onChange={(carKmPerWeek) => setTransport({ carKmPerWeek })}
         />
         <div className="grid gap-4 sm:grid-cols-2">
           <NumberField
@@ -113,18 +115,14 @@ export function CalculatorForm({
             icon={Bus}
             unit="km/wk"
             value={value.transport.busKmPerWeek}
-            onChange={(busKmPerWeek) =>
-              update({ transport: { ...value.transport, busKmPerWeek } })
-            }
+            onChange={(busKmPerWeek) => setTransport({ busKmPerWeek })}
           />
           <NumberField
             label="Train distance"
             icon={Train}
             unit="km/wk"
             value={value.transport.trainKmPerWeek}
-            onChange={(trainKmPerWeek) =>
-              update({ transport: { ...value.transport, trainKmPerWeek } })
-            }
+            onChange={(trainKmPerWeek) => setTransport({ trainKmPerWeek })}
           />
         </div>
         <NumberField
@@ -134,7 +132,7 @@ export function CalculatorForm({
           hint="Roughly add up the flight time of trips you take in a year."
           value={value.transport.flightHoursPerYear}
           onChange={(flightHoursPerYear) =>
-            update({ transport: { ...value.transport, flightHoursPerYear } })
+            setTransport({ flightHoursPerYear })
           }
         />
       </fieldset>
@@ -149,7 +147,7 @@ export function CalculatorForm({
             hint="Check a recent bill, or estimate."
             value={value.energy.electricityKwhPerMonth}
             onChange={(electricityKwhPerMonth) =>
-              update({ energy: { ...value.energy, electricityKwhPerMonth } })
+              setEnergy({ electricityKwhPerMonth })
             }
           />
           <NumberField
@@ -157,18 +155,14 @@ export function CalculatorForm({
             icon={Flame}
             unit="kWh/mo"
             value={value.energy.gasKwhPerMonth}
-            onChange={(gasKwhPerMonth) =>
-              update({ energy: { ...value.energy, gasKwhPerMonth } })
-            }
+            onChange={(gasKwhPerMonth) => setEnergy({ gasKwhPerMonth })}
           />
         </div>
         <RangeField
           label="Share of electricity from renewables"
           suffix="%"
           value={value.energy.renewablePercent}
-          onChange={(renewablePercent) =>
-            update({ energy: { ...value.energy, renewablePercent } })
-          }
+          onChange={(renewablePercent) => setEnergy({ renewablePercent })}
         />
       </fieldset>
 
@@ -179,7 +173,7 @@ export function CalculatorForm({
           icon={Utensils}
           value={value.diet.type}
           options={DIET_OPTIONS}
-          onChange={(type) => update({ diet: { type } })}
+          onChange={(type) => setDiet({ type })}
         />
         <NumberField
           label="Spending on goods & shopping"
@@ -187,7 +181,7 @@ export function CalculatorForm({
           unit="$/mo"
           hint="Clothes, electronics, and other non-food purchases."
           value={value.goods.monthlySpendUsd}
-          onChange={(monthlySpendUsd) => update({ goods: { monthlySpendUsd } })}
+          onChange={(monthlySpendUsd) => setGoods({ monthlySpendUsd })}
         />
       </fieldset>
 
