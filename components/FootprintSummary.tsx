@@ -1,3 +1,6 @@
+"use client";
+
+import { memo } from "react";
 import { Globe2, Target } from "lucide-react";
 import { BENCHMARKS } from "@/lib/carbon/factors";
 import { formatMultiplier, formatTonnes } from "@/lib/format";
@@ -11,8 +14,11 @@ interface FootprintSummaryProps {
  * Headline result: the total annual footprint plus context against the global
  * average and the sustainable per-capita target. Comparisons are expressed in
  * words as well as figures, so meaning never depends on colour alone.
+ *
+ * Memoized: it only re-renders when `result` changes, not on every keystroke in
+ * the calculator form above it.
  */
-export function FootprintSummary({ result }: FootprintSummaryProps) {
+function FootprintSummaryImpl({ result }: FootprintSummaryProps) {
   const { totalAnnualTonnes, comparison } = result;
   const aboveTarget = comparison.vsSustainableTarget > 1;
 
@@ -74,3 +80,5 @@ export function FootprintSummary({ result }: FootprintSummaryProps) {
     </section>
   );
 }
+
+export const FootprintSummary = memo(FootprintSummaryImpl);

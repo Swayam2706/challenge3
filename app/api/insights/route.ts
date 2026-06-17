@@ -94,5 +94,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     result = generateRuleBasedInsights(input);
   }
 
-  return NextResponse.json(result, { status: 200 });
+  return NextResponse.json(result, {
+    status: 200,
+    // Personalized, per-request data — never cache at the browser/CDN layer.
+    headers: { "Cache-Control": "no-store" },
+  });
 }

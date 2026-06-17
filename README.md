@@ -1,5 +1,12 @@
 # 🌱 EcoTrack — Carbon Footprint Awareness Platform
 
+[![CI](https://github.com/Swayam2706/challenge3/actions/workflows/ci.yml/badge.svg)](https://github.com/Swayam2706/challenge3/actions/workflows/ci.yml)
+![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)
+![Tests](https://img.shields.io/badge/tests-79%20passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 EcoTrack helps individuals **understand, track, and reduce** their carbon
 footprint through a few simple questions and personalized, actionable insights.
 
@@ -109,6 +116,23 @@ lib/
   rate-limit.ts         In-memory fixed-window limiter
   format.ts             Locale-aware formatting
 ```
+
+## Performance
+
+EcoTrack is tuned to keep the initial payload small and interactions cheap:
+
+- **Code-splitting:** all result components (summary, charts, insights, goal,
+  progress) and the Recharts library are lazily imported, so they are **not**
+  in the initial bundle. The landing route ships **~29 kB** of page JS
+  (~117 kB First Load incl. shared chunks).
+- **Package-import optimization:** `optimizePackageImports` tree-shakes
+  `lucide-react` and `recharts` to their used modules.
+- **Render efficiency:** heavy result components are `React.memo`-ised, so
+  typing in the calculator doesn't re-render them.
+- **Bounded memory:** the rate limiter prunes expired windows; local storage is
+  capped to the most recent entries.
+- **Correct caching:** personalized API responses are returned `no-store`;
+  static assets and fonts are cached by the framework.
 
 ### Data & methodology
 

@@ -1,3 +1,6 @@
+"use client";
+
+import { memo } from "react";
 import {
   Car,
   Leaf,
@@ -33,7 +36,7 @@ const DIFFICULTY: Record<
 };
 
 /** Renders the personalized recommendation cards and the footprint summary. */
-export function InsightsList({ data }: InsightsListProps) {
+function InsightsListImpl({ data }: InsightsListProps) {
   const totalPotential = data.insights.reduce(
     (acc, insight) => acc + insight.estimatedAnnualSavingKg,
     0,
@@ -101,3 +104,5 @@ export function InsightsList({ data }: InsightsListProps) {
     </section>
   );
 }
+
+export const InsightsList = memo(InsightsListImpl);
